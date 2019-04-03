@@ -7,16 +7,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.lexisnexis.PlanetDatabase.model.Planet;
 import com.lexisnexis.PlanetDatabase.service.PlanetDatabaseAppService;
 
-//@RunWith(SpringRunner.class)
-//@WebMvcTest(PlanetDatabaseAppController.class) 
+@RunWith(SpringRunner.class)
+@WebMvcTest(PlanetDatabaseAppController.class) 
 public class TestPlanetDatabaseController {
 
 	@Autowired
@@ -25,7 +29,7 @@ public class TestPlanetDatabaseController {
 	@MockBean
 	private PlanetDatabaseAppService planetDatabaseAppService;
 	
-	//@Test
+	@Test
 	public void getAllPlanetsTest() throws Exception {
 		List<Planet> planets = new ArrayList<>();
 		Planet planet = new Planet();
@@ -40,7 +44,7 @@ public class TestPlanetDatabaseController {
 		planets.add(planet);
 		planets.add(planet1);
 		when(planetDatabaseAppService.getAllPlanets()).thenReturn(planets);
-		 mvc.perform(get("/planets").header("Authorization","cGxhbmV0dXNlcjpwbGFuZXR1c2VyMTIz")
+		 mvc.perform(get("/planets").header("Authorization","Basic cGxhbmV0dXNlcjpwbGFuZXR1c2VyMTIz")
 				 .header("Authenticate", "Basic realm=MY_PLANET_REALM")
 			      .contentType(MediaType.APPLICATION_JSON))
 			      .andExpect(status().isOk());
