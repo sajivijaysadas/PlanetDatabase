@@ -4,7 +4,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -31,22 +31,11 @@ public class TestPlanetDatabaseController {
 	
 	@Test
 	public void getAllPlanetsTest() throws Exception {
-		List<Planet> planets = new ArrayList<>();
-		Planet planet = new Planet();
-		planet.setPlanetId(new Long(1));
-		planet.setPlanetName("Mars");	
-		planet.setDistance("34523452345");
-
-		Planet planet1 = new Planet();
-		planet.setPlanetId(new Long(2));
-		planet1.setPlanetName("Venus");
-		planet1.setDistance("323get4233452345");
-		planets.add(planet);
-		planets.add(planet1);
+		List<Planet> planets = Arrays.asList(new Planet(1L, "Mercury", "mercury.jpg", "200,00,000"),
+				new Planet(2L, "Venus", "Venus.jpg", "300,00,000"), new Planet(3L, "Earth", "earth.jpg", "400,000,00"));
 		when(planetDatabaseAppService.getAllPlanets()).thenReturn(planets);
-		 mvc.perform(get("/planets").header("Authorization","Basic cGxhbmV0dXNlcjpwbGFuZXR1c2VyMTIz")
-				 .header("Authenticate", "Basic realm=MY_PLANET_REALM")
-			      .contentType(MediaType.APPLICATION_JSON))
-			      .andExpect(status().isOk());
+		mvc.perform(get("/planets").header("Authorization", "Basic cGxhbmV0dXNlcjpwbGFuZXR1c2VyMTIz")
+				.header("Authenticate", "Basic realm=MY_PLANET_REALM").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 }

@@ -7,7 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.After;
@@ -44,31 +44,10 @@ public class TestPlanetDatabaseAppService {
 
 	@Test
 	public void getAllPlanetsTest() {
-		List<Planet> list = new ArrayList<Planet>();
-		Planet planetOne = new Planet();
-		planetOne.setPlanetName("Mercury");
-		planetOne.setPlanetId(new Long(1));
-		planetOne.setImage("mercury.jpg");
-		planetOne.setDistance("200");
-
-		Planet planetTwo = new Planet();
-		planetTwo.setPlanetName("Venus");
-		planetTwo.setPlanetId(new Long(2));
-		planetTwo.setImage("/Venus");
-		planetTwo.setDistance("300");
-
-		Planet planetThree = new Planet();
-		planetThree.setPlanetName("Earth");
-		planetThree.setPlanetId(new Long(3));
-		planetThree.setImage("/earth");
-		planetThree.setDistance("400");
-		list.add(planetOne);
-		list.add(planetTwo);
-		list.add(planetThree);
-
-		when(planetDataRepository.findAll()).thenReturn(list);
-		List<Planet> planetList = planetDatabaseAppService.getAllPlanets();
-		assertEquals(3, planetList.size());
+		List<Planet> planets = Arrays.asList(new Planet(1L, "Mercury", "mercury.jpg", "200,00,000"),
+				new Planet(2L, "Venus", "Venus.jpg", "300,00,000"), new Planet(3L, "Earth", "earth.jpg", "400,000,00"));
+		when(planetDataRepository.findAll()).thenReturn(planets);
+		assertEquals(3, planetDatabaseAppService.getAllPlanets().size());
 		verify(planetDataRepository, times(2)).findAll();
 
 	}
@@ -78,10 +57,8 @@ public class TestPlanetDatabaseAppService {
 		try {
 			List<Planet> list = null;
 			when(mock(PlanetDataRepository.class).findAll()).thenReturn(list);
-			List<Planet> planetList = planetDatabaseAppService.getAllPlanets();
-			assertEquals(0, planetList.size());
+			assertEquals(0, planetDatabaseAppService.getAllPlanets().size());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

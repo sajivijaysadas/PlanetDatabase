@@ -10,15 +10,24 @@ import javax.persistence.Table;
 public class Planet {
 
 	@Id
-	@Column(name = "PLANET_ID")
+	@Column(name = "PLANET_ID", length = 20)
 	private Long planetId;
-	@Column(name="PLANET_NAME")
+	@Column(name="PLANET_NAME", length = 30)
 	private String planetName;
-	@Column(name = "IMAGE")
+	@Column(name = "IMAGE", length = 30)
 	private String image;
-	@Column(name = "DISTANCE")
+	@Column(name = "DISTANCE", length = 30)
 	private String distance;
 	
+	public Planet() {
+		
+	}
+	public Planet(Long planetId, String planetName, String image, String distance) {
+		this.planetId = planetId;
+		this.planetName = planetName;
+		this.image = image;
+		this.distance = distance;
+	}
 	public String getPlanetName() {
 		return planetName;
 	}
